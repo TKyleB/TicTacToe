@@ -3,36 +3,46 @@
 Board board = new Board();
 Player player1 = new Player(Symbol.X);
 Player player2 = new Player(Symbol.O);
+int input;
 int turnNumber = 1;
 board.PrintBoard();
 
-while (turnNumber < 9)
+while (true)
 {
     
     Player currentTurn = player1;
-    Console.WriteLine(" \nPlayer 1 - Where do you want to play?");
-    while (board.CheckMove(currentTurn));
+    MakeMove(currentTurn);
     Console.Clear();
     board.PrintBoard();
     if (board.CheckWin(currentTurn))
     {
-        Console.WriteLine("Player 1 Wins!");
+        Console.WriteLine($"{ currentTurn.Icon} Wins!");
         return;
     }
-    turnNumber++;
+    if (turnNumber > 9) break;
     currentTurn = player2;
-    Console.WriteLine(" \nPlayer 2 - Where do you want to play?");
-    while (board.CheckMove(currentTurn));
+    MakeMove(currentTurn);
     Console.Clear();
     board.PrintBoard();
     if (board.CheckWin(currentTurn))
     {
-        Console.WriteLine("Player 2 Wins!");
+        Console.WriteLine($"{ currentTurn.Icon} Wins!");
         return;
     }
+    if (turnNumber > 9) break;
+
+}
+
+void MakeMove(Player currentTurn)
+{
+    while (true)
+    {
+        Console.WriteLine($"\n{currentTurn.Icon} - Where do you want to play?");
+        input = Convert.ToInt32(Console.ReadLine());
+        if (board.CheckMove(currentTurn, input)) break;
+        else continue;
+    }
     turnNumber++;
-
-
 }
 
 Console.WriteLine("Its a Tie!");
@@ -58,63 +68,67 @@ public class Board
         }
     }
 
-    public bool CheckMove(Player currentTurn)
+    public bool CheckMove(Player currentTurn, int input)
     {
-        int input = Convert.ToInt32(Console.ReadLine());
-        if (input == 7 && Cell[0, 0] == Symbol.E)
-        {
-            Cell[0, 0] = currentTurn.Icon;
-            return false;
+        
+            if (input == 7 && Cell[0, 0] == Symbol.E)
+            {
+                Cell[0, 0] = currentTurn.Icon;
+                return true;
+            }
+            else if (input == 8 && Cell[0, 1] == Symbol.E)
+            {
+                Cell[0, 1] = currentTurn.Icon;
+                return true;
         }
-        else if (input == 8 && Cell[0, 1] == Symbol.E)
-        {
-            Cell[0, 1] = currentTurn.Icon;
-            return false;
+            else if (input == 9 && Cell[0, 2] == Symbol.E)
+            {
+                Cell[0, 2] = currentTurn.Icon;
+                return true;
         }
-        else if (input == 9 && Cell[0, 2] == Symbol.E)
-        {
-            Cell[0, 2] = currentTurn.Icon;
-            return false;
+            else if (input == 4 && Cell[1, 0] == Symbol.E)
+            {
+                Cell[1, 0] = currentTurn.Icon;
+                return true;
         }
-        else if (input == 4 && Cell[1, 0] == Symbol.E)
-        {
-            Cell[1, 0] = currentTurn.Icon;
-            return false;
+            else if (input == 5 && Cell[1, 1] == Symbol.E)
+            {
+                Cell[1, 1] = currentTurn.Icon;
+                return true;
         }
-        else if (input == 5 && Cell[1, 1] == Symbol.E)
-        {
-            Cell[1, 1] = currentTurn.Icon;
-            return false;
+            else if (input == 6 && Cell[1, 2] == Symbol.E)
+            {
+                Cell[1, 2] = currentTurn.Icon;
+                return true;
         }
-        else if (input == 6 && Cell[1, 2] == Symbol.E)
-        {
-            Cell[1, 2] = currentTurn.Icon;
-            return false;
+            else if (input == 1 && Cell[2, 0] == Symbol.E)
+            {
+                Cell[2, 0] = currentTurn.Icon;
+                return true;
         }
-        else if (input == 1 && Cell[2, 0] == Symbol.E)
-        {
-            Cell[2, 0] = currentTurn.Icon;
-            return false;
+            else if (input == 2 && Cell[2, 1] == Symbol.E)
+            {
+                Cell[2, 1] = currentTurn.Icon;
+                return true;
         }
-        else if (input == 2 && Cell[2, 1] == Symbol.E)
-        {
-            Cell[2, 1] = currentTurn.Icon;
-            return false;
+            else if (input == 3 && Cell[2, 2] == Symbol.E)
+            {
+                Cell[2, 2] = currentTurn.Icon;
+                return true;
         }
-        else if (input == 3 && Cell[2, 2] == Symbol.E)
-        {
-            Cell[2, 2] = currentTurn.Icon;
-            return false;
-        }
-        else
-        {
-            Console.WriteLine("Invalid Move. Try Again.");
-            return true;
-        }
+            else
+            {
+                Console.WriteLine("Invalid Move. Try Again");
+                return false;
+            }
+        
+        
 
 
         
     }
+
+
     public bool CheckWin(Player currentTurn)
     {
         // Check Row
